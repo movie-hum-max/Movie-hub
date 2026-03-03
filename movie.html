@@ -2,9 +2,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Movie Details</title>
 
 <style>
+html, body{
+  width:100%;
+  overflow-x:hidden;
+}
+
 body{
   margin:0;
   font-family:Arial;
@@ -14,7 +20,7 @@ body{
 }
 
 .container{
-  max-width:900px;
+  width:100%;          /* changed from max-width */
   margin:auto;
 }
 
@@ -118,13 +124,9 @@ h2{
 
   <div id="gallery" class="gallery"></div>
 
-  <!-- Download Button -->
   <button id="download" class="btn">⬇ Download Movie 1080p</button>
 
-  <!-- Optional Native Ad -->
-  <div id="ad-container" style="text-align:center; margin-top:20px;">
-    <!-- Paste your PropellerAds / Adsterra native ad code here -->
-  </div>
+  <div id="ad-container" style="text-align:center; margin-top:20px;"></div>
 
   <a href="index.html" class="back">⬅ Back</a>
 
@@ -159,8 +161,7 @@ if(movie.shots && movie.shots.length){
   });
 }
 
-// ===== Download Button with Ad =====
-const AD_LINK = "https://www.effectivegatecpm.com/fy7j93z51z?key=b5d72790070e76011a5972cd6e592039"; // Replace with your safe Propeller/Adsterra link
+const AD_LINK = "https://www.effectivegatecpm.com/fy7j93z51z?key=b5d72790070e76011a5972cd6e592039";
 const REAL_DOWNLOAD = movie.download;
 
 const btn = document.getElementById("download");
@@ -168,7 +169,6 @@ const btn = document.getElementById("download");
 btn.addEventListener("click", () => {
   btn.disabled = true;
 
-  // Open ad in new tab
   window.open(AD_LINK, "_blank", "noopener");
 
   let seconds = 5;
@@ -180,8 +180,6 @@ btn.addEventListener("click", () => {
 
     if(seconds <= 0){
       clearInterval(timer);
-
-      // Open real download in new tab
       window.open(REAL_DOWNLOAD, "_blank", "noopener");
       btn.innerText = "⬇ Download Started";
       btn.disabled = false;
@@ -191,12 +189,14 @@ btn.addEventListener("click", () => {
 
 window.scrollTo(0,0);
 
+/* Fixed bug */
 window.onpageshow = function(){
   if(!localStorage.getItem("movie")){
     location.href = "index.html";
   }
 }
 </script>
+
 <script type="text/javascript" src="YOUR-POPUNDER-SCRIPT.js"></script>
 
 </body>
