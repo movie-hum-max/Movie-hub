@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Movie Details</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#111;
+  color:white;
+  padding:20px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+}
+
+.poster{
+  display:block;
+  margin:20px auto;
+  width:240px;
+  height:340px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+h2{
+  text-align:center;
+  margin-top:10px;
+}
+
+.desc{
+  text-align:center;
+  color:#ccc;
+  margin:10px auto 25px;
+  max-width:700px;
+  line-height:1.6;
+}
+
+.info-text{
+  text-align:center;
+  color:white;
+  margin:15px auto;
+  line-height:1.8;
+  font-size:14px;
+  white-space:pre-line;
+}
+
+.shot-title{
+  text-align:center;
+  margin-top:40px;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.gallery{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:15px;
+  margin-top:20px;
+}
+
+.gallery img{
+  width:300px;
+  height:170px;
+  object-fit:cover;
+  border-radius:8px;
+  transition:.2s;
+}
+
+.gallery img:hover{
+  transform:scale(1.05);
+}
+
+.btn{
+  display:block;
+  margin:30px auto;
+  padding:12px 25px;
+  background:#e50914;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.btn:disabled{
+  opacity:.6;
+}
+
+.back{
+  display:block;
+  text-align:center;
+  margin-top:15px;
+  color:#aaa;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <img id="poster" class="poster">
+
+  <h2 id="title"></h2>
+
+  <p id="desc" class="desc"></p>
+
+  <div class="info-text" id="info"></div>
+
+  <div class="shot-title">📸 Screenshots</div>
+
+  <div id="gallery" class="gallery"></div>
+
+  <!-- Download Button -->
+  <button id="download" class="btn">⬇ Download Movie 1080p</button>
+
+  <!-- Optional Native Ad -->
+  <div id="ad-container" style="text-align:center; margin-top:20px;">
+    <!-- Paste your PropellerAds / Adsterra native ad code here -->
+  </div>
+
+  <a href="index.html" class="back">⬅ Back</a>
+
+</div>
+
+<script>
+const movieData = localStorage.getItem("movie");
+
+if(!movieData){
+  document.body.innerHTML = "<h2 style='text-align:center'>⚠ Please open movie from homepage</h2>";
+  throw new Error("Movie not selected");
+}
+
+const movie = JSON.parse(movieData);
+
+document.title = movie.title + " | Movie Hub";
+
+document.getElementById("title").innerText = movie.title;
+
+const poster = document.getElementById("poster");
+poster.src = movie.poster;
+poster.onerror = () => poster.src = "https://via.placeholder.com/300x400?text=No+Image";
+
+document.getElementById("desc").innerText = movie.desc;
+document.getElementById("info").innerText = movie.info || "";
+
+const gallery = document.getElementById("gallery");
+
+if(movie.shots && movie.shots.length){
+  movie.shots.forEach(s=>{
+    gallery.innerHTML += `<img src="${s}" onerror="this.style.display='none'">`;
+  });
+}
+
+// ===== Download Button with Ad =====
+const AD_LINK = "https://www.effectivegatecpm.com/fy7j93z51z?key=b5d72790070e76011a5972cd6e592039"; // Replace with your safe Propeller/Adsterra link
+const REAL_DOWNLOAD = movie.download;
+
+const btn = document.getElementById("download");
+
+btn.addEventListener("click", () => {
+  btn.disabled = true;
+
+  // Open ad in new tab
+  window.open(AD_LINK, "_blank", "noopener");
+
+  let seconds = 5;
+  btn.innerText = "⏳ Please wait " + seconds + "s...";
+
+  const timer = setInterval(() => {
+    seconds--;
+    btn.innerText = "⏳ Please wait " + seconds + "s...";
+
+    if(seconds <= 0){
+      clearInterval(timer);
+
+      // Open real download in new tab
+      window.open(REAL_DOWNLOAD, "_blank", "noopener");
+      btn.innerText = "⬇ Download Started";
+      btn.disabled = false;
+    }
+  }, 1000);
+});
+
+window.scrollTo(0,0);
+
+window.onpageshow = function(){
+  if(!localStorage.getItem("movie")){
+    location.href = "index.html";
+  }
+}
+</script>
+<script type="text/javascript" src="YOUR-POPUNDER-SCRIPT.js"></script>
+
+</body>
+</html>
