@@ -2,11 +2,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>🎬 Movie Hub</title>
 
 <style>
-body{
+html, body{
+  width:100%;
+  overflow-x:hidden;
+}
+  body{
   margin:0;
   font-family: 'Segoe UI', Arial, sans-serif;
   background:#0f0f0f;
@@ -46,11 +50,6 @@ input{
   padding:12px;
 }
 
-@media(min-width:768px){
-  .grid{
-    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  }
-}
 
 /* Card */
 .card{
